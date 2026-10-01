@@ -32,10 +32,12 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/admin', [DashboardController::class, 'admin'])->name('admin.index');
     });
 
-    // Overzicht Magazijn Jamin – user story 1
+    // Overzicht Magazijn Jamin – user story 1 en 2
     Route::middleware('role:magazijnmedewerker|admin')->group(function (): void {
         Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
         Route::get('/magazijn/{product}/leveringsinformatie', [MagazijnController::class, 'leveringsinformatie'])
             ->name('magazijn.leveringsinformatie');
+        Route::get('/magazijn/{product}/allergenen', [MagazijnController::class, 'allergenen'])
+            ->name('magazijn.allergenen');
     });
 });

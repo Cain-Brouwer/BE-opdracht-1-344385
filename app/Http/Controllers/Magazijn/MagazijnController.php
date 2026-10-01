@@ -52,4 +52,25 @@ class MagazijnController extends Controller
         ]);
     }
 
+    /**
+     * Overzicht Allergenen: alle allergenen van het gekozen product,
+     * gesorteerd op Naam oplopend.
+     */
+    public function allergenen(Product $product): View
+    {
+        abort_unless($product->IsActief, 404);
+
+        $product->loadMissing(['allergenen']);
+
+        if ($product->actieveAllergenen()->isEmpty()) {
+            return view('magazijn.overzicht-allergenen-geen-stoffen', [
+                'product' => $product,
+            ]);
+        }
+
+        return view('magazijn.overzicht-allergenen', [
+            'product' => $product,
+            'allergenen' => $product->actieveAllergenen(),
+        ]);
+    }
 }

@@ -15,6 +15,7 @@
                     <th class="border px-4 py-2 text-left">Verpakkingseenheid</th>
                     <th class="border px-4 py-2 text-left">Aantal aanwezig</th>
                     <th class="border px-4 py-2 text-center">Leverantie info</th>
+                    <th class="border px-4 py-2 text-center">Allergenen info</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +40,15 @@
                                title="Leverantie info" aria-label="Leverantie info van {{ $product->Naam }}"
                                class="text-2xl text-blue-600 hover:text-blue-800">?</a>
                         </td>
+                        <td class="border px-4 py-2 text-center">
+                            <a href="{{ route('magazijn.allergenen', $product) }}"
+                               title="Allergenen info" aria-label="Allergenen info van {{ $product->Naam }}"
+                               class="text-2xl text-red-600 hover:text-red-800">&#10006;</a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="border px-4 py-2 text-gray-500">
+                        <td colspan="6" class="border px-4 py-2 text-gray-500">
                             Er staan op dit moment geen producten in het magazijn.
                         </td>
                     </tr>

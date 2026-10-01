@@ -135,6 +135,23 @@ class Product extends Model
         return $leveringen->first()?->DatumEerstVolgendeLevering?->format('d-m-Y');
     }
 
+    /**
+     * The active allergens, alphabetically.
+     *
+     * @return Collection<int, Allergeen>
+     */
+    public function actieveAllergenen(): Collection
+    {
+        $allergenen = $this->relationLoaded('allergenen')
+            ? $this->allergenen
+            : $this->allergenen()->where('ProductPerAllergeen.IsActief', true)->get();
+
+        return $allergenen
+            ->filter(fn (Allergeen $allergeen) => $allergeen->pivot->IsActief && $allergeen->IsActief)
+            ->sortBy('Naam')
+            ->values();
+    }
+
     protected function casts(): array
     {
         return [
