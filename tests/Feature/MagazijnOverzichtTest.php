@@ -117,14 +117,15 @@ class MagazijnOverzichtTest extends TestCase
             ->assertDontSee('UitverkochtProduct');
     }
 
-    public function test_each_product_links_to_its_delivery_screen(): void
+    public function test_each_product_links_to_its_delivery_and_allergen_screen(): void
     {
         $product = Product::factory()->create();
         Magazijn::factory()->for($product)->create();
 
         $this->actingAs($this->magazijnmedewerker)
             ->get(route('magazijn.index'))
-            ->assertSee(route('magazijn.leveringsinformatie', $product));
+            ->assertSee(route('magazijn.leveringsinformatie', $product))
+            ->assertSee(route('magazijn.allergenen', $product));
     }
 
     public function test_the_home_page_links_to_the_overview(): void

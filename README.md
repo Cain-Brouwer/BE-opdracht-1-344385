@@ -1,58 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Jamin Magazijn — Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend voor de opdracht *Inzien leveringsinformatie product* en *Inzien allergeneninformatie product*
+(Jamin, klas IO-SD-2509). Laravel 13 met PHP 8.5 en MySQL/MariaDB.
 
-## About Laravel
+## Database
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+De applicatie gebruikt MySQL/MariaDB met database **`laravel`** (zie `DB_DATABASE` in `.env`).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Instelling | Waarde |
+| --- | --- |
+| Host | `127.0.0.1` |
+| Poort | `3306` |
+| Database | `laravel` (tests: `laravel_test`) |
+| Gebruiker | `root` (leeg wachtwoord, lokaal) |
+| Charset | `utf8mb4` / `utf8mb4_unicode_ci` |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Verbinden met MySQL Workbench
 
-## Learning Laravel
+1. Nieuwe verbinding aanmaken (of bestaande bewerken).
+2. Connection Name: `Jamin (lokaal)`.
+3. Host: `localhost`, Port: `3306`, Username: `root`, wachtwoord leeg laten.
+4. Schema kiezen: `laravel`.
+5. Verbinden — de database is direct te openen en te bewerken.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Wordt MySQL Workbench op een **andere machine** gebruikt, dan is het IP-adres van deze laptop
+nodig in plaats van `localhost`. Let op: dan is er een wachtwoord nodig, want de lege
+`root`-inlog geldt alleen lokaal.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Database aanmaken / vullen
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php artisan migrate:fresh --seed
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+- `migrate` bouwt alle tabellen op, inclusief de zes Jamin-tabellen uit `create_script_jamin.sql`.
+- `--seed` vult rollen, categorieën, producten en de drie demo-gebruikers.
 
-## Contributing
+Los daarvan:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan migrate          # alleen migraties draaien
+php artisan migrate:rollback # migraties terugdraaien
+php artisan db:seed          # alleen seeders draaien
+php artisan db:show          # overzicht van tabellen en rijen
+```
 
-## Code of Conduct
+### Create-script
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+`create_script_jamin.sql` is het create-script voor de zes specificatietabellen
+(`Product`, `Allergeen`, `Leverancier`, `Magazijn`, `ProductPerAllergeen`,
+`ProductPerLeverancier`) inclusief systeemvelden, relaties en de voorbeelddata uit de opdracht.
 
-## Security Vulnerabilities
+Het script is **idempotent**: foreign keys worden aan het begin en einde even uitgezet, dus je
+kunt het meerdere keren uitvoeren zonder dat er een foutmelding over foreign keys komt.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Uitvoeren vanuit MySQL Workbench: selecteer het schema `laravel`, klik met rechts op het schema en
+kies *Set as default*, plak daarna het script in een SQL-tabblad en voer het uit. De regels
+`CREATE DATABASE` / `USE` in het script staan bewust als commentaar, omdat de applicatie het schema uit
+`.env` gebruikt.
 
-## License
+### Migraties
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Migratie | Wat het doet |
+| --- | --- |
+| `0001_01_01_*` | users, cache, jobs/queues |
+| `2026_09_13_192456_create_permission_tables` | rollen en rechten (Spatie) |
+| `2026_09_14_000000_create_categories_table` | `categories` |
+| `2026_09_14_000001_create_products_table` | `products` (winkelcatalogus) |
+| `2026_09_24_083951_import_database_jamin` | voert `create_script_jamin.sql` uit |
+
+De Jamin-migratie slaat zichzelf over op andere drivers dan MySQL, zodat de tests op SQLite kunnen
+draaien.
+
+### Modellen
+
+| Model | Tabel |
+| --- | --- |
+| `Product` | `Product` (Jamin, kolom `Id`) |
+| `Magazijn` | `Magazijn` |
+| `Allergeen` | `Allergeen` |
+| `Leverancier` | `Leverancier` |
+| `ProductPerLeverancier` | `ProductPerLeverancier` |
+| `ProductPerAllergeen` | `ProductPerAllergeen` |
+| `Category` | `categories` |
+| `ShopProduct` | `products` (winkelcatalogus) |
+
+Let op het verschil tussen `Product` (Jamin, met hoofdletter) en `ShopProduct` (winkelcatalogus).
+MySQL behandeld tabelnamen hoofdlettergevoelig, dus `Product` en `products` zijn twee tabellen.
+
+## Aan de slag
+
+```bash
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+npm run build
+
+php artisan serve
+```
+
+## Gebruikers uit de seeder
+
+| E-mail | Wachtwoord | Rol |
+| --- | --- | --- |
+| `admin@admin.com` | `wachtwoord` | admin |
+| `magazijnmedewerker@jamin.nl` | `wachtwoord` | magazijnmedewerker |
+| `test@example.com` | `wachtwoord` | user |
+
+## Schermen
+
+| Route | Naam | Rol |
+| --- | --- | --- |
+| `/` | Home met link naar het magazijn | iedereen |
+| `/magazijn` | **Overzicht Magazijn Jamin** | magazijnmedewerker, admin |
+| `/magazijn/{product}/leveringsinformatie` | **Levering Informatie** (user story 1) | magazijnmedewerker, admin |
+| `/magazijn/{product}/allergenen` | **Overzicht Allergenen** (user story 2) | magazijnmedewerker, admin |
+| `/categories` | Categorieën met producten | iedereen |
+| `/dashboard` | Dashboard met eigen rollen | ingelogd |
+| `/admin` | Overzicht alle gebruikers | admin |
+
+### User story 1 – Inzien leveringsinformatie product
+
+Het overzicht toont alle producten die in het magazijn aanwezig zijn, **gesorteerd op barcode
+oplopend**, met per product een `?` in de kolom *Leverantie info* en een rood kruis in de kolom
+*Allergenen info*.
+
+Het detailscherm toont bovenaan de leveranciergegevens (naam, contactpersoon, leveranciernummer,
+mobiel) en daaronder alle leveringen, **gesorteerd op datum laatste levering oplopend**, inclusief de
+verwachte eerstvolgende leveringsdatum.
+
+Scenario 02 (Winegums): als `AantalAanwezig` `NULL` of `0` is, toont het scherm de melding
+*Er is van dit product op dit moment geen voorraad aanwezig, de verwachte eerstvolgende levering is:
+30-10-2024* en wordt je na 4 seconden teruggestuurd naar het overzicht.
+
+### User story 2 – Inzien allergeneninformatie product
+
+Het detailscherm toont bovenaan de naam en barcode van het product en daaronder de allergenen,
+**gesorteerd op naam oplopend**.
+
+Scenario 02 (Cola Flesjes): als het product geen allergenen heeft, toont het scherm de melding *In dit
+product zitten geen stoffen die een allergische reactie kunnen veroorzaken* en wordt je na 4 seconden
+teruggestuurd naar het overzicht.
+
+> Let op: in de opdracht staat "30-04-2023", maar in de data staat voor Winegums een eerstvolgende
+> levering van **30-10-2024**. De applicatie toont de datum uit de database.
+
+## Tests
+
+De tests draaien op de MySQL-database **`laravel_test`**, zodat de Jamin-tabellen uit
+`create_script_jamin.sql` echt worden meegenomen. De ontwikkeldatabase `laravel` wordt niet geraakt.
+
+De testdatabase eenmalig aanmaken:
+
+```sql
+CREATE DATABASE IF NOT EXISTS `laravel_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+```bash
+php artisan test
+vendor/bin/pint --dirty
+```
+
+## Rollen en rechten
+
+Rollen komen uit `Spatie\Permission`. De middleware-alias `role`, `permission` en
+`role_or_permission` zijn geregistreerd in `bootstrap/app.php`.
