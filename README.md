@@ -129,6 +129,9 @@ php artisan serve
 
 ## Schermen
 
+De kolomvolgordes en de velden bovenaan de tabellen komen overeen met de wireframes uit de
+opdracht. `tests/Feature/WireframeTest.php` controleert dat.
+
 | Route | Naam | Rol |
 | --- | --- | --- |
 | `/` | Home met link naar het magazijn | iedereen |
@@ -142,12 +145,14 @@ php artisan serve
 ### User story 1 – Inzien leveringsinformatie product
 
 Het overzicht toont alle producten die in het magazijn aanwezig zijn, **gesorteerd op barcode
-oplopend**, met per product een `?` in de kolom *Leverantie info* en een rood kruis in de kolom
-*Allergenen info*.
+oplopend**. De kolommen staan in dezelfde volgorde als de wireframe: `Barcode`, `Naam`,
+`Verpakkingseenheid`, `Aantal aanwezig`, `Allergenen Info` en `Leverantie Info`. In de kolom
+*Allergenen Info* staat een rood kruis, in *Leverantie Info* een blauw vraagteken.
 
-Het detailscherm toont bovenaan de leveranciergegevens (naam, contactpersoon, leveranciernummer,
-mobiel) en daaronder alle leveringen, **gesorteerd op datum laatste levering oplopend**, inclusief de
-verwachte eerstvolgende leveringsdatum.
+Het detailscherm toont bovenaan de vier leveranciergegevens (naam, contactpersoon,
+leveranciernummer, mobiel) en daaronder de leveringen met de kolommen `Naam Product`,
+`Datum laatste levering`, `Aantal` en `Eerstvolgende levering`, **gesorteerd op datum laatste
+levering oplopend**.
 
 Scenario 02 (Winegums): als `AantalAanwezig` `NULL` of `0` is, toont het scherm de melding
 *Er is van dit product op dit moment geen voorraad aanwezig, de verwachte eerstvolgende levering is:
@@ -155,8 +160,8 @@ Scenario 02 (Winegums): als `AantalAanwezig` `NULL` of `0` is, toont het scherm 
 
 ### User story 2 – Inzien allergeneninformatie product
 
-Het detailscherm toont bovenaan de naam en barcode van het product en daaronder de allergenen,
-**gesorteerd op naam oplopend**.
+Het detailscherm toont bovenaan de velden `Naam` en `Barcode` van het product en daaronder de
+kolommen `Naam` en `Omschrijving` met de allergenen, **gesorteerd op naam oplopend**.
 
 Scenario 02 (Cola Flesjes): als het product geen allergenen heeft, toont het scherm de melding *In dit
 product zitten geen stoffen die een allergische reactie kunnen veroorzaken* en wordt je na 4 seconden

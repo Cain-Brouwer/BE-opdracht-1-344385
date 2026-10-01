@@ -2,27 +2,24 @@
 
 @section('content')
     <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between mb-4">
-            <h1 class="text-2xl font-bold">Overzicht Magazijn Jamin</h1>
-            <span class="text-sm text-gray-600">Gesorteerd op barcode oplopend</span>
-        </div>
+        <h1 class="text-2xl font-bold mb-4">Overzicht Magazijn Jamin</h1>
 
         <table class="w-full border-collapse">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="border px-4 py-2 text-left">Naam product</th>
                     <th class="border px-4 py-2 text-left">Barcode</th>
+                    <th class="border px-4 py-2 text-left">Naam</th>
                     <th class="border px-4 py-2 text-left">Verpakkingseenheid</th>
                     <th class="border px-4 py-2 text-left">Aantal aanwezig</th>
-                    <th class="border px-4 py-2 text-center">Leverantie info</th>
-                    <th class="border px-4 py-2 text-center">Allergenen info</th>
+                    <th class="border px-4 py-2 text-center">Allergenen Info</th>
+                    <th class="border px-4 py-2 text-center">Leverantie Info</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($producten as $product)
                     <tr>
-                        <td class="border px-4 py-2 font-medium">{{ $product->Naam }}</td>
                         <td class="border px-4 py-2">{{ $product->Barcode }}</td>
+                        <td class="border px-4 py-2 font-medium">{{ $product->Naam }}</td>
                         <td class="border px-4 py-2">
                             @foreach ($product->actieveMagazijnRecords() as $magazijn)
                                 {{ rtrim(rtrim(number_format((float) $magazijn->Verpakkingseenheid, 2, ',', ''), '0'), ',') }} kg
@@ -36,14 +33,14 @@
                             @endif
                         </td>
                         <td class="border px-4 py-2 text-center">
-                            <a href="{{ route('magazijn.leveringsinformatie', $product) }}"
-                               title="Leverantie info" aria-label="Leverantie info van {{ $product->Naam }}"
-                               class="text-2xl text-blue-600 hover:text-blue-800">?</a>
+                            <a href="{{ route('magazijn.allergenen', $product) }}"
+                               title="Allergenen Info" aria-label="Allergenen info van {{ $product->Naam }}"
+                               class="text-2xl text-red-600 hover:text-red-800">&#10007;</a>
                         </td>
                         <td class="border px-4 py-2 text-center">
-                            <a href="{{ route('magazijn.allergenen', $product) }}"
-                               title="Allergenen info" aria-label="Allergenen info van {{ $product->Naam }}"
-                               class="text-2xl text-red-600 hover:text-red-800">&#10006;</a>
+                            <a href="{{ route('magazijn.leveringsinformatie', $product) }}"
+                               title="Leverantie Info" aria-label="Leverantie info van {{ $product->Naam }}"
+                               class="text-2xl font-bold text-blue-600 hover:text-blue-800">?</a>
                         </td>
                     </tr>
                 @empty

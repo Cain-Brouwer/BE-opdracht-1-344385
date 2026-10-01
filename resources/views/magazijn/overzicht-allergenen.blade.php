@@ -5,14 +5,14 @@
         <h1 class="text-2xl font-bold mb-4">Overzicht Allergenen</h1>
 
         <div class="mb-6 p-4 bg-gray-50 rounded">
-            <p class="text-lg"><strong>Naam product:</strong> {{ $product->Naam }}</p>
+            <p class="text-lg"><strong>Naam:</strong> {{ $product->Naam }}</p>
             <p class="text-lg"><strong>Barcode:</strong> {{ $product->Barcode }}</p>
         </div>
 
         <table class="w-full border-collapse">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="border px-4 py-2 text-left">Naam allergene</th>
+                    <th class="border px-4 py-2 text-left">Naam</th>
                     <th class="border px-4 py-2 text-left">Omschrijving</th>
                 </tr>
             </thead>
@@ -25,7 +25,7 @@
                 @empty
                     <tr>
                         <td colspan="2" class="border px-4 py-2 text-gray-500">
-                            In dit product zitten geen stoffen die een allergische reactie kunnen veroorzaken.
+                            In dit product zitten geen stoffen die een allergische reactie kunnen veroorzaken
                         </td>
                     </tr>
                 @endforelse

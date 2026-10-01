@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold mb-4">Overzicht Allergenen</h1>
 
         <div class="mb-6 p-4 bg-gray-50 rounded">
-            <p class="text-lg"><strong>Naam product:</strong> {{ $product->Naam }}</p>
+            <p class="text-lg"><strong>Naam:</strong> {{ $product->Naam }}</p>
             <p class="text-lg"><strong>Barcode:</strong> {{ $product->Barcode }}</p>
         </div>
 
