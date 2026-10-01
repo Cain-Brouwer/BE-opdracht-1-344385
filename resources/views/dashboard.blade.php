@@ -23,6 +23,11 @@
         </div>
     @endif
 
-    <p class="text-gray-600">Ingelogd als <strong>{{ $user->name }}</strong> met rol <strong>{{ $user->roles->first()->name }}</strong>.</p>
+    <p class="text-gray-600">
+        Ingelogd als <strong>{{ $user->name }}</strong>
+        @if ($user->roles->isNotEmpty())
+            met rol <strong>{{ $user->roles->pluck('name')->join(', ') }}</strong>.
+        @endif
+    </p>
 </div>
 @endsection

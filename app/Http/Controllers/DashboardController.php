@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Contracts\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\View
+    public function index(): View
     {
         return view('dashboard', [
-            'user' => Auth::user(),
+            'user' => auth()->user(),
         ]);
     }
 
-    public function admin(): \Illuminate\Contracts\View\View
+    public function admin(): View
     {
         return view('admin.index', [
-            'users' => \App\Models\User::with('roles')->get(),
+            'users' => User::with('roles')->orderBy('name')->get(),
         ]);
     }
 }

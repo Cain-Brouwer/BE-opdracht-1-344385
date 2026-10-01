@@ -6,14 +6,19 @@
 -- 01            13-09-2026      Cain Brouwer                New
 -- **********************************************************************************/
 
--- Check if the database exists
-DROP DATABASE IF EXISTS `Jamin`;
-
 -- Create a new Database
-CREATE DATABASE IF NOT EXISTS `Jamin`;
+-- CREATE DATABASE IF NOT EXISTS `Jamin`;
 
 -- Use database Jamin
-Use `Jamin`;
+-- Use `Jamin`;
+
+-- Let op: de applicatie draait op het schema uit DB_DATABASE in .env (standaard `laravel`).
+-- Voer dit script uit tegen datzelfde schema, dus zonder de regels hierboven uit te commentaren.
+-- Bij uitvoeren vanuit MySQL Workbench: selecteer het schema en zet het op "Set as default".
+--
+-- Foreign keys tijdelijk uitzetten, zodat het script opnieuw uitgevoerd kan worden
+-- terwijl er al tabellen met relaties aanwezig zijn.
+SET FOREIGN_KEY_CHECKS = 0;
 
 
 -- Step: 02
@@ -378,3 +383,10 @@ VALUES
     ,(5, 11, '2024-10-19', 60, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,(5, 12, '2024-10-11', 45, NULL, 1, NULL, SYSDATE(6), SYSDATE(6))
     ,(5, 13, '2024-10-12', 23, NULL, 1, NULL, SYSDATE(6), SYSDATE(6));
+
+
+-- Step: 09
+-- Goal: Foreign keys weer aanzetten
+-- **********************************************************************************
+
+SET FOREIGN_KEY_CHECKS = 1;

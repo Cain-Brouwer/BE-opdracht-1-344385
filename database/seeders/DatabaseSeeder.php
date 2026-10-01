@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,18 +18,37 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
         ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $password = Hash::make('wachtwoord');
 
-        $admin = User::create([
-            'name' => 'admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('admin'),
-        ]);
-        $admin->assignRole('admin');
+        $testUser = User::updateOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => $password,
+            ],
+        );
+        $testUser->syncRoles(['user']);
+
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'admin',
+                'password' => $password,
+            ],
+        );
+        $admin->syncRoles(['admin']);
+
+        $warehouseEmployee = User::updateOrCreate(
+            ['email' => 'magazijnmedewerker@jamin.nl'],
+            [
+                'name' => 'Magazijnmedewerker',
+                'password' => $password,
+            ],
+        );
+        $warehouseEmployee->syncRoles(['magazijnmedewerker']);
     }
 }
