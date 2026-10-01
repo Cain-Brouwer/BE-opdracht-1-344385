@@ -27,20 +27,20 @@ class DashboardAccessTest extends TestCase
     public function test_a_logged_in_user_sees_the_dashboard_with_their_roles(): void
     {
         $user = User::factory()->create();
-        $user->assignRole('user');
+        $user->assignRole('klant');
 
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertOk()
             ->assertSee($user->name)
             ->assertSee($user->email)
-            ->assertSee('user');
+            ->assertSee('klant');
     }
 
     public function test_a_regular_user_cannot_open_the_admin_panel(): void
     {
         $user = User::factory()->create();
-        $user->assignRole('user');
+        $user->assignRole('klant');
 
         $this->actingAs($user)->get(route('admin.index'))->assertForbidden();
     }

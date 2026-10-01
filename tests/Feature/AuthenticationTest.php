@@ -37,7 +37,7 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticated();
 
         $user = User::where('email', 'jan@example.com')->firstOrFail();
-        $this->assertTrue($user->hasRole('user'));
+        $this->assertTrue($user->hasRole('klant'));
         $this->assertTrue(Hash::check('geheim-wachtwoord', $user->password));
     }
 

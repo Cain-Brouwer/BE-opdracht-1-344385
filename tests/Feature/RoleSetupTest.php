@@ -23,7 +23,7 @@ class RoleSetupTest extends TestCase
         $this->seed(RoleSeeder::class);
 
         $this->assertEqualsCanonicalizing(
-            ['admin', 'magazijnmedewerker', 'user'],
+            ['admin', 'klant', 'magazijnmedewerker'],
             Role::query()->pluck('name')->all(),
         );
     }
@@ -42,8 +42,8 @@ class RoleSetupTest extends TestCase
 
         $verwacht = [
             'admin@admin.com' => 'admin',
+            'klant@jamin.nl' => 'klant',
             'magazijnmedewerker@jamin.nl' => 'magazijnmedewerker',
-            'test@example.com' => 'user',
         ];
 
         foreach ($verwacht as $email => $rol) {
@@ -58,7 +58,7 @@ class RoleSetupTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        foreach (['admin@admin.com', 'magazijnmedewerker@jamin.nl', 'test@example.com'] as $email) {
+        foreach (['admin@admin.com', 'klant@jamin.nl', 'magazijnmedewerker@jamin.nl'] as $email) {
             $this->post(route('login'), [
                 'email' => $email,
                 'password' => 'wachtwoord',
@@ -89,7 +89,7 @@ class RoleSetupTest extends TestCase
             'password_confirmation' => 'geheim-wachtwoord',
         ])->assertRedirect(route('dashboard'));
 
-        $this->assertTrue(User::query()->where('email', 'jan@example.com')->firstOrFail()->hasRole('user'));
+        $this->assertTrue(User::query()->where('email', 'jan@example.com')->firstOrFail()->hasRole('klant'));
     }
 
     public function test_only_the_warehouse_role_reaches_the_overview(): void
@@ -102,7 +102,7 @@ class RoleSetupTest extends TestCase
         $this->actingAs(User::query()->where('email', 'admin@admin.com')->firstOrFail())
             ->get(route('magazijn.index'))->assertOk();
 
-        $this->actingAs(User::query()->where('email', 'test@example.com')->firstOrFail())
+        $this->actingAs(User::query()->where('email', 'klant@jamin.nl')->firstOrFail())
             ->get(route('magazijn.index'))->assertForbidden();
     }
 }

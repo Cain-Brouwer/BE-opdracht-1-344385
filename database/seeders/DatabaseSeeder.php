@@ -24,23 +24,14 @@ class DatabaseSeeder extends Seeder
 
         $password = Hash::make('wachtwoord');
 
-        $testUser = User::updateOrCreate(
-            ['email' => 'test@example.com'],
+        $klant = User::updateOrCreate(
+            ['email' => 'klant@jamin.nl'],
             [
-                'name' => 'Test User',
+                'name' => 'Klant',
                 'password' => $password,
             ],
         );
-        $testUser->syncRoles(['user']);
-
-        $admin = User::updateOrCreate(
-            ['email' => 'admin@admin.com'],
-            [
-                'name' => 'admin',
-                'password' => $password,
-            ],
-        );
-        $admin->syncRoles(['admin']);
+        $klant->syncRoles(['klant']);
 
         $warehouseEmployee = User::updateOrCreate(
             ['email' => 'magazijnmedewerker@jamin.nl'],
@@ -50,5 +41,14 @@ class DatabaseSeeder extends Seeder
             ],
         );
         $warehouseEmployee->syncRoles(['magazijnmedewerker']);
+
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'admin',
+                'password' => $password,
+            ],
+        );
+        $admin->syncRoles(['admin']);
     }
 }

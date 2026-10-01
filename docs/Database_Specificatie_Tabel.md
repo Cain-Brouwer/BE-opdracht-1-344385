@@ -5,7 +5,7 @@
 | Opdracht | BE-opdracht 01 – Jamin |
 | Studentnummer | 344385 |
 | Datum | 01-10-2026 |
-| Database | `laravel` |
+| Database | `laravel` (poort 3306) |
 | Databasesysteem | MySQL / MariaDB, charset `utf8mb4`, collation `utf8mb4_unicode_ci` |
 | Create-script | `create_script_jamin.sql` |
 | Export | `db/BE-opdracht-1-344385_jamin.sql` |
@@ -221,7 +221,7 @@ De applicatie gebruikt daarnaast een aantal Laravel-tabellen die niet uit de opd
 | Tabel | Doel |
 | --- | --- |
 | `users` | Inlogaccounts. |
-| `roles`, `permissions`, `model_has_roles`, `model_has_permissions`, `role_has_permissions` | Rollen en rechten via `spatie/laravel-permission`. Rollen: `user`, `admin`, `magazijnmedewerker`. |
+| `roles`, `permissions`, `model_has_roles`, `model_has_permissions`, `role_has_permissions` | Rollen en rechten via `spatie/laravel-permission`. Rollen: `klant`, `magazijnmedewerker`, `admin`. |
 | `categories`, `products` | Winkelcatalogus naast het magazijn van Jamin. |
 | `sessions`, `cache`, `cache_locks`, `jobs`, `job_batches`, `failed_jobs` | Sessies, cache en queues van Laravel. |
 | `migrations` | Register van de uitgevoerde migraties. |

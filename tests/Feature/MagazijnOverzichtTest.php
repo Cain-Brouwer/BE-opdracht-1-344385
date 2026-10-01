@@ -33,7 +33,7 @@ class MagazijnOverzichtTest extends TestCase
     public function test_a_user_without_the_warehouse_role_is_forbidden(): void
     {
         $user = User::factory()->create();
-        $user->assignRole('user');
+        $user->assignRole('klant');
 
         $this->actingAs($user)->get(route('magazijn.index'))->assertForbidden();
     }

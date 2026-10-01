@@ -28,7 +28,7 @@ class RegisterController extends Controller
 
         $user = User::create($validated);
 
-        $user->assignRole(Role::findOrCreate('user', 'web'));
+        $user->assignRole(Role::findOrCreate('klant', 'web'));
 
         Auth::login($user);
 

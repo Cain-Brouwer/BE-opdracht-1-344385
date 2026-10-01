@@ -125,7 +125,7 @@ php artisan serve
 | --- | --- | --- |
 | `admin@admin.com` | `wachtwoord` | admin |
 | `magazijnmedewerker@jamin.nl` | `wachtwoord` | magazijnmedewerker |
-| `test@example.com` | `wachtwoord` | user |
+| `klant@jamin.nl` | `wachtwoord` | klant |
 
 ## Schermen
 
@@ -185,3 +185,18 @@ vendor/bin/pint --dirty
 
 Rollen komen uit `Spatie\Permission`. De middleware-alias `role`, `permission` en
 `role_or_permission` zijn geregistreerd in `bootstrap/app.php`.
+
+| Rol | Wie | Mag wat |
+| --- | --- | --- |
+| `magazijnmedewerker` | Medewerker van het magazijn | Overzicht Magazijn Jamin, Levering Informatie, Overzicht Allergenen |
+| `admin` | Beheerder | Alles van de magazijnmedewerker, plus het overzicht van alle gebruikers op `/admin` |
+| `klant` | Geregistreerd webaccount | Dashboard en de publieke pagina's, geen magazijntoegang |
+
+Nieuwe accounts die zichzelf registreren krijgen automatisch de rol `klant`.
+
+### Databaseserver
+
+De applicatie gebruikt de systemaardige MariaDB op **poort 3306**. Let op: XAMPP draait op deze
+laptop ook een MySQL-server, op **poort 3307**. MySQL Workbench is standaard met die XAMPP-server
+verbonden en toont dan een verouderde kopie. Maak in Workbench daarom een verbinding met
+Host `localhost` en Poort `3306`; dan zie je dezelfde database als de applicatie.
