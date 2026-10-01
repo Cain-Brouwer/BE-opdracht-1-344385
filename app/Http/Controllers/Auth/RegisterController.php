@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -27,7 +28,7 @@ class RegisterController extends Controller
 
         $user = User::create($validated);
 
-        $user->assignRole('user');
+        $user->assignRole(Role::findOrCreate('user', 'web'));
 
         Auth::login($user);
 
