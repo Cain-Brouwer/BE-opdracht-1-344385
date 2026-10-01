@@ -24,7 +24,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="2" class="border px-4 py-2 text-gray-500">
+                        <td colspan="2" class="border px-4 py-2">
                             In dit product zitten geen stoffen die een allergische reactie kunnen veroorzaken
                         </td>
                     </tr>
@@ -32,10 +32,19 @@
             </tbody>
         </table>
 
-        <p class="mt-4">
+        <p class="mt-4 text-gray-600">
+            @if ($allergenen->isEmpty())
+                U wordt over 4 seconden teruggestuurd naar het overzicht.
+            @endif
             <a href="{{ route('magazijn.index') }}" class="text-blue-600 hover:underline">
                 Terug naar overzicht
             </a>
         </p>
     </div>
 @endsection
+
+@if ($allergenen->isEmpty())
+    @push('head')
+        <meta http-equiv="refresh" content="4;url={{ route('magazijn.index') }}">
+    @endpush
+@endif

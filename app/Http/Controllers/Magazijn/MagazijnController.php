@@ -29,6 +29,9 @@ class MagazijnController extends Controller
     /**
      * Levering Informatie: alle leveringsdata van het gekozen product,
      * gesorteerd op Datum laatste levering oplopend.
+     *
+     * Zonder voorraad blijft het scherm staan, maar toont de tabel de melding
+     * dat er geen voorraad aanwezig is.
      */
     public function leveringsinformatie(Product $product): View
     {
@@ -36,25 +39,24 @@ class MagazijnController extends Controller
 
         $product->loadMissing(['magazijn', 'leveringen.leverancier']);
 
-        if (! $product->heeftVoorraad()) {
-            return view('magazijn.leveringsinformatie-geen-voorraad', [
-                'product' => $product,
-                'verwachteLeveringsdatum' => $product->verwachteLeveringsdatum(),
-            ]);
-        }
-
-        $leveringen = $product->actieveLeveringen();
+        $leveringen = $product->heeftVoorraad()
+            ? $product->actieveLeveringen()
+            : $product->actieveLeveringen()->take(0);
 
         return view('magazijn.leveringsinformatie', [
             'product' => $product,
             'leveringen' => $leveringen,
             'leverancier' => $product->laatsteLevering()?->leverancier,
+            'verwachteLeveringsdatum' => $product->verwachteLeveringsdatum(),
         ]);
     }
 
     /**
      * Overzicht Allergenen: alle allergenen van het gekozen product,
      * gesorteerd op Naam oplopend.
+     *
+     * Zonder allergenen blijft het scherm staan, maar toont de tabel de melding
+     * dat er geen stoffen in zitten die een allergische reactie veroorzaken.
      */
     public function allergenen(Product $product): View
     {
@@ -62,15 +64,11 @@ class MagazijnController extends Controller
 
         $product->loadMissing(['allergenen']);
 
-        if ($product->actieveAllergenen()->isEmpty()) {
-            return view('magazijn.overzicht-allergenen-geen-stoffen', [
-                'product' => $product,
-            ]);
-        }
+        $allergenen = $product->actieveAllergenen();
 
         return view('magazijn.overzicht-allergenen', [
             'product' => $product,
-            'allergenen' => $product->actieveAllergenen(),
+            'allergenen' => $allergenen,
         ]);
     }
 }

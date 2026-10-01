@@ -77,12 +77,16 @@ class OverzichtAllergenenTest extends TestCase
         $product = Product::factory()->create(['Naam' => 'Cola Flesjes']);
         Magazijn::factory()->for($product)->create();
 
-        $this->actingAs($this->magazijnmedewerker)
-            ->get(route('magazijn.allergenen', $product))
-            ->assertOk()
+        $response = $this->actingAs($this->magazijnmedewerker)
+            ->get(route('magazijn.allergenen', $product));
+
+        $response->assertOk()
             ->assertSee('In dit product zitten geen stoffen die een allergische reactie kunnen veroorzaken')
             ->assertSee('over 4 seconden teruggestuurd')
             ->assertSee('content="4;url='.route('magazijn.index').'"', false);
+
+        // De opdracht zegt dat de melding in de tabel staat, dus de tabel blijft staan.
+        $response->assertSee('Omschrijving');
     }
 
     public function test_inactive_allergen_links_are_ignored(): void

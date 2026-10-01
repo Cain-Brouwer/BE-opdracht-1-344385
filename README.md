@@ -154,18 +154,19 @@ leveranciernummer, mobiel) en daaronder de leveringen met de kolommen `Naam Prod
 `Datum laatste levering`, `Aantal` en `Eerstvolgende levering`, **gesorteerd op datum laatste
 levering oplopend**.
 
-Scenario 02 (Winegums): als `AantalAanwezig` `NULL` of `0` is, toont het scherm de melding
-*Er is van dit product op dit moment geen voorraad aanwezig, de verwachte eerstvolgende levering is:
-30-10-2024* en wordt je na 4 seconden teruggestuurd naar het overzicht.
+Scenario 02 (Winegums): als `AantalAanwezig` `NULL` of `0` is, blijft het detailscherm staan en
+toont de tabel in plaats van de leveringen de melding *Er is van dit product op dit moment geen
+voorraad aanwezig, de verwachte eerstvolgende levering is: 30-10-2024*. Na 4 seconden word je
+teruggestuurd naar het overzicht.
 
 ### User story 2 – Inzien allergeneninformatie product
 
 Het detailscherm toont bovenaan de velden `Naam` en `Barcode` van het product en daaronder de
 kolommen `Naam` en `Omschrijving` met de allergenen, **gesorteerd op naam oplopend**.
 
-Scenario 02 (Cola Flesjes): als het product geen allergenen heeft, toont het scherm de melding *In dit
-product zitten geen stoffen die een allergische reactie kunnen veroorzaken* en wordt je na 4 seconden
-teruggestuurd naar het overzicht.
+Scenario 02 (Cola Flesjes): als het product geen allergenen heeft, blijft het detailscherm staan en
+toont de tabel in plaats van de allergenen de melding *In dit product zitten geen stoffen die een
+allergische reactie kunnen veroorzaken*. Na 4 seconden word je teruggestuurd naar het overzicht.
 
 > Let op: in de opdracht staat "30-04-2023", maar in de data staat voor Winegums een eerstvolgende
 > levering van **30-10-2024**. De applicatie toont de datum uit de database.

@@ -90,14 +90,20 @@ class LeveringsinformatieTest extends TestCase
             'DatumEerstVolgendeLevering' => '2024-10-30',
         ]);
 
-        $this->actingAs($this->magazijnmedewerker)
-            ->get(route('magazijn.leveringsinformatie', $product))
-            ->assertOk()
+        $response = $this->actingAs($this->magazijnmedewerker)
+            ->get(route('magazijn.leveringsinformatie', $product));
+
+        $response->assertOk()
             ->assertSee('Er is van dit product op dit moment geen voorraad aanwezig, de verwachte eerstvolgende')
             ->assertSee('30-10-2024')
             ->assertSee('over 4 seconden teruggestuurd')
             ->assertSee('http-equiv="refresh"', false)
             ->assertSee('content="4;url='.route('magazijn.index').'"', false);
+
+        // De opdracht zegt dat de melding in de tabel staat, dus de tabel blijft staan.
+        $response->assertSee('Naam Product')
+            ->assertSee('Datum laatste levering')
+            ->assertSee('Eerstvolgende levering');
     }
 
     public function test_a_product_without_stock_without_expected_date_says_so(): void
