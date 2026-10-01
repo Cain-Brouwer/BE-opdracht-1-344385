@@ -3,6 +3,17 @@
 Backend voor de opdracht *Inzien leveringsinformatie product* en *Inzien allergeneninformatie product*
 (Jamin, klas IO-SD-2509). Laravel 13 met PHP 8.5 en MySQL/MariaDB.
 
+Studentnummer 344385.
+
+## Opleveringen
+
+| Bestand | Inhoud |
+| --- | --- |
+| `create_script_jamin.sql` | Create-script voor de zes specificatietabellen, inclusief relaties en data. |
+| `db/BE-opdracht-1-344385_jamin.sql` | Database-export, direct te importeren in MySQL Workbench. |
+| `docs/Database_Specificatie_Tabel.md` | Database Specificatie Tabel: velden, datatypes, nullable, sleutels, relaties en ERD. |
+| `vids/` | Filmpje met de gerealiseerde scenario's. |
+
 ## Database
 
 De applicatie gebruikt MySQL/MariaDB met database **`laravel`** (zie `DB_DATABASE` in `.env`).
@@ -58,6 +69,13 @@ Uitvoeren vanuit MySQL Workbench: selecteer het schema `laravel`, klik met recht
 kies *Set as default*, plak daarna het script in een SQL-tabblad en voer het uit. De regels
 `CREATE DATABASE` / `USE` in het script staan bewust als commentaar, omdat de applicatie het schema uit
 `.env` gebruikt.
+
+### Database-export
+
+`db/BE-opdracht-1-344385_jamin.sql` bevat een volledige export van database `laravel`, inclusief het
+create-statement voor de database zelf. Importeren in MySQL Workbench: open het bestand in een
+SQL-tabblad en voer het uit. De veldnamen, typen, foreign keys en de data komen dan exact
+overeen met de specificatie in `docs/Database_Specificatie_Tabel.md`.
 
 ### Migraties
 
