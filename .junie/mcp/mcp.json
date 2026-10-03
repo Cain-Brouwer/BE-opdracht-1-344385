@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/usr/bin/php",
+            "args": [
+                "/home/cainbrouwer/Projecten MBO Utrecht/Leerjaar 2/Periode 1/Backend/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
